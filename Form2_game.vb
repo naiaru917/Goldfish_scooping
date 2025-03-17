@@ -43,7 +43,7 @@
             fish_y = {-3, -4, -5, -7, -8, -3, -6, -9}
         End If
 
-        '画像の上下の反転
+        '魚の向きを調整
         pb(3).Image.RotateFlip(RotateFlipType.Rotate90FlipNone)
         pb(3).Refresh()
         pb(7).Image.RotateFlip(RotateFlipType.Rotate90FlipNone)
@@ -55,32 +55,36 @@
         End If
 
     End Sub
+
+    '金魚の移動に関するタイマー
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
         For i = 0 To pb.GetUpperBound(0)
             '金魚が画面外に出た時の処理
             If pb(i).Left <= 0 Or pb(i).Left + pb(i).Width >= Me.ClientRectangle.Width Then
-                fish_x(i) *= -1
+                fish_x(i) *= -1    '進行方向を反転
             End If
             If pb(i).Top <= 0 Or pb(i).Top + pb(i).Height >= Me.ClientRectangle.Height Then
-                fish_y(i) *= -1
+                fish_y(i) *= -1    '進行方向を反転
                 pb(i).Image.RotateFlip(RotateFlipType.RotateNoneFlipY)  '画像の上下の反転
                 pb(i).Refresh()
             End If
 
             '金魚を動かす処理
-            pb(i).Left += fish_x(i)
-            pb(i).Top += fish_y(i)
+            pb(i).Left += fish_x(i)    'X方向（左右）
+            pb(i).Top += fish_y(i)     'Y方向（上下）
         Next
 
-
+        '点数の表示
         Label1.Text = ten & "点"
 
+        'ポイの処理
         Dim mouse_Pos As Point = PointToClient(Windows.Forms.Cursor.Position) 'マウスカーソルの座標
         PictureBox1.Top = mouse_Pos.Y - (PictureBox1.Height / 2)  'マウスの位置とポイ画像の位置を連携させる
         PictureBox1.Left = mouse_Pos.X - (PictureBox1.Width / 2)
 
     End Sub
 
+    'ゲームの制限時間を管理するタイマー
     Private Sub Timer2_Tick(sender As Object, e As EventArgs) Handles Timer2.Tick
         '残り時間を減らす処理
         time -= 1
@@ -92,19 +96,20 @@
             Timer3.Stop()
 
             If sound = True Then
-                FinishSound()
+                FinishSound()    '終了の効果音を再生
                 Label3.Visible = True
                 Label3.Text = "Finish!!"
             End If
         End If
 
-        '終了２秒後にForm移動
+        '終了２秒後にリザルト画面へ移動
         If time = -2 Then
             Form4.Show()
         End If
 
     End Sub
 
+    '獲得した金魚を別の場所に再表示するためにタイマー
     Private Sub Timer3_Tick(sender As Object, e As EventArgs) Handles Timer3.Tick
         '捕まえた金魚を再表示する処理
         For i = 0 To pb.GetUpperBound(0)
@@ -123,6 +128,7 @@
 
     End Sub
 
+    '金魚を泳いでいるように見せるためのタイマー
     Private Sub Timer4_Tick(sender As Object, e As EventArgs) Handles Timer4.Tick
         '画像を反転させ、泳いでいるように見せる
         For i = 0 To pb.GetUpperBound(0)
@@ -131,6 +137,7 @@
         Next
     End Sub
 
+    'フィーバータイム用のタイマー
     Private Sub Timer5_Tick(sender As Object, e As EventArgs) Handles Timer5.Tick
         'フィーバータイム処理
         If time = 10 Then
@@ -157,10 +164,10 @@
         End If
     End Sub
 
+    '一時停止ボタンを押した時の処理
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        '一時停止を押した時の処理
         If sound = True Then
-            BtnSound()
+            BtnSound()    'ボタンを押したときの効果音
         End If
         Form3.Show()
         Timer1.Stop()
@@ -169,11 +176,11 @@
 
     End Sub
 
-    '金魚をクリックした時の処理↓
+    '金魚をクリックした時の処理
     Private Sub PictureBox2_Click(sender As Object, e As EventArgs) Handles PictureBox.Click
         If frg = False Then
-            ten += 10
-            fish_cntA += 1
+            ten += 10         '点数のカウント
+            fish_cntA += 1    '獲得数のカウント
         Else
             ten += 50
             fish_cntD += 1
@@ -183,9 +190,10 @@
         cnt(0) = time
 
         If sound = True Then
-            FishSound()
+            FishSound()    '金魚の獲得音（パシャッという音）
         End If
     End Sub
+
     Private Sub PictureBox3_Click(sender As Object, e As EventArgs) Handles PictureBox3.Click
         If frg = False Then
             ten += 10
