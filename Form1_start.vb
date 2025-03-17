@@ -1,23 +1,23 @@
 ﻿Public Class Form1
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         If bgm = True Then
-            'BGMを再生する
-            startBGM1()
+            startBGM1()    'BGMを再生する
         End If
     End Sub
+    
+    'スタートボタンをクリックしたとき
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        'スタートボタン
-        Form5.Show()
+        Form5.Show()    'ルール画面を表示
         If sound = True Then
-            BtnSound()
+            BtnSound()  'ボタンの効果音を再生
         End If
     End Sub
 
+     '設定ボタンをクリックしたとき
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        '設定ボタン
-        Form6.Show()
+        Form6.Show()    '設定画面を表示
         If sound = True Then
-            BtnSound()
+            BtnSound()  'ボタンの効果音を再生
         End If
     End Sub
 
