@@ -1,7 +1,10 @@
 ﻿Public Class Form4
     Private Sub Form4_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        'フォームの位置を設定
         Me.Left = Form1.Left
         Me.Top = Form1.Top
+
+        'スコアの表示
         Label1.Text = ten & "点"
         Label2.Text = "金魚：" & fish_cntA & " /出目金：" & fish_cntB & " /ピラニア：" & fish_cntC & " /黄金の金魚：" & fish_cntD
         Form2.Close()
@@ -13,9 +16,11 @@
 
         Dim score(11) As Integer
         Dim Name(11) As String
+
+        '難易度が「簡単」のとき
         If level = "kantan" Then
-            Dim rank1 As New IO.StreamReader(“rankScoreK.txt”)  'メモ帳呼び出し
-            Dim rank2 As New IO.StreamReader(“rankNameK.txt”)
+            Dim rank1 As New IO.StreamReader(“rankScoreK.txt”)  'メモ帳から過去のスコアデータを呼び出し
+            Dim rank2 As New IO.StreamReader(“rankNameK.txt”) 　'メモ帳から過去のプレイヤー名データを呼び出し
 
             For i = 0 To 9
                 score(i) = rank1.ReadLine() '変数 score に1行ずつ格納
@@ -26,6 +31,8 @@
                 Name(i) = rank2.ReadLine() '変数 name に1行ずつ格納
             Next
             rank2.Close()  'メモ帳閉じる
+
+        '難易度が「普通」のとき
         ElseIf level = "hutsuu" Then
             Dim rank1 As New IO.StreamReader(“rankScoreH.txt”)
             Dim rank2 As New IO.StreamReader(“rankNameH.txt”)
@@ -39,6 +46,8 @@
                 Name(i) = rank2.ReadLine()
             Next
             rank2.Close()
+
+        '難易度が「難しい」のとき
         Else
             Dim rank1 As New IO.StreamReader(“rankScoreM.txt”)
             Dim rank2 As New IO.StreamReader(“rankNameM.txt”)
@@ -67,8 +76,8 @@
 
     End Sub
 
+    'スタート画面へボタンをクリックしたとき
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        'スタート画面へボタン
         If sound = True Then
             BtnSound()
         End If
@@ -79,8 +88,8 @@
         Me.Close()
     End Sub
 
+    '終了ボタンをクリックしたとき
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        '終了ボタン
         If sound = True Then
             BtnSound()
         End If
@@ -88,16 +97,16 @@
         Form1.Close()
     End Sub
 
+    'ランキングボタンをクリックしたとき
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
-        'ランキングボタン
         If sound = True Then
             BtnSound()
         End If
         Form7.Show()
     End Sub
 
+    '登録ボタンをクリックしたとき
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
-        '登録ボタン
         If sound = True Then
             BtnSound()
         End If
@@ -108,15 +117,15 @@
                 "エラー",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error)
-            Exit Sub '下の処理を飛ばす
+            Exit Sub
         End If
 
         Dim score(11) As Integer
         Dim Name(11) As String
 
         If level = "kantan" Then
-            Dim rank1 As New IO.StreamReader(“rankScoreK.txt”)  'メモ帳呼び出し
-            Dim rank2 As New IO.StreamReader(“rankNameK.txt”)
+            Dim rank1 As New IO.StreamReader(“rankScoreK.txt”)   'メモ帳から過去のスコアデータを呼び出し
+            Dim rank2 As New IO.StreamReader(“rankNameK.txt”)    'メモ帳から過去のプレイヤー名データを呼び出し
 
             For i = 0 To 9
                 score(i) = rank1.ReadLine() '変数 score に1行ずつ格納
@@ -202,6 +211,5 @@
         TextBox1.Text = ""
         Form7.Show()
     End Sub
-
 
 End Class
